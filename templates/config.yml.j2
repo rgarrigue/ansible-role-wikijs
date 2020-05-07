@@ -1,0 +1,21 @@
+# {{ ansible_managed }}
+# See https://github.com/Requarks/wiki/blob/master/config.sample.yml
+
+port: {{ wikijs_port }}
+
+db:
+  type: {{ wikijs_db_type }}
+  host: {{ wikijs_db_host }}
+  port: {{ wikijs_db_port }}
+  user: {{ wikijs_db_user }}
+  pass: {{ wikijs_db_password }}
+  db: {{ wikijs_db_name }}
+
+logLevel: {{ wikijs_loglevel }}
+
+uploads:
+  maxFileSize: 5242880 # 5MB
+  maxFiles: 10
+
+ha: {{ wikijs_high_availability_mode }}
+

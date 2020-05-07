@@ -1,0 +1,17 @@
+---
+# defaults file for ansible-role-wikijs
+
+wikijs_nodejs_version: 10.*
+wikijs_working_directory: /srv/wikijs
+wikijs_version: 2.3.77
+wikijs_port: 3000
+wikijs_loglevel: info
+wikijs_high_availability_mode: false
+wikijs_url: localhost
+
+wikijs_db_type: postgres
+wikijs_db_host: localhost
+wikijs_db_port: 5432
+wikijs_db_name: wikijs
+wikijs_db_user: wikijs
+wikijs_db_password: wikijs-db-secret

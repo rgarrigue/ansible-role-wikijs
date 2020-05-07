@@ -1,0 +1,29 @@
+---
+- name: Converge
+  hosts: all
+
+  vars:
+    ansible_python_interpreter: python3
+
+  pre_tasks:
+    - name: Install requirements
+      package:
+        name: "{{ item }}"
+      loop:
+        - python3-psycopg2
+        - sudo
+
+    # Postgres databases
+    - name: Configure PostgreSQL, create users and databases
+      include_role:
+        name: geerlingguy.postgresql
+      vars:
+        postgresql_users:
+          - name: "{{ wikijs_db_user }}"
+            password: "{{ wikijs_db_password }}"
+        postgresql_databases:
+          - name: "{{ wikijs_db_name }}"
+            owner: "{{ wikijs_db_user }}"
+
+  roles:
+    - role: "{{ lookup('env', 'MOLECULE_PROJECT_DIRECTORY') | basename }}"

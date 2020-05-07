@@ -1,0 +1,59 @@
+---
+# tasks file for ansible-role-wikijs
+
+- name: Create group
+  group:
+    name: wikijs
+
+- name: Create user
+  user:
+    name: wikijs
+    group: wikijs
+    comment: "Wiki.js.org"
+    system: yes
+    create_home: yes
+    shell: /bin/bash
+    home: "{{ wikijs_working_directory }}"
+
+- name: Install requirements
+  package:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - nodejs={{ wikijs_nodejs_version }}
+    - tar
+  notify: restart wikijs
+
+- name: Download sources
+  unarchive:
+    src: https://github.com/Requarks/wiki/releases/download/{{ wikijs_version }}/wiki-js.tar.gz
+    dest: "{{ wikijs_working_directory }}"
+    remote_src: yes
+    owner: wikijs
+    group: wikijs
+  notify: restart wikijs
+
+- name: Add configuration
+  template:
+    src: config.yml.j2
+    dest: "{{ wikijs_working_directory }}/config.yml"
+    owner: wikijs
+    group: wikijs
+    mode: 0440
+  notify:
+    - restart wikijs
+
+- name: Add service file
+  template:
+    src: wikijs.service.j2
+    dest: /etc/systemd/system/wikijs.service
+    mode: 0444
+  notify:
+    - reload systemd
+    - restart wikijs
+
+- name: Start service
+  service:
+    name: wikijs
+    state: started
+    enabled: yes

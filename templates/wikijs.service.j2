@@ -1,0 +1,16 @@
+# {{ ansible_managed }}
+
+[Unit]
+Description=Wiki.js
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/node server
+Restart=always
+User=wikijs
+Environment=NODE_ENV=production
+WorkingDirectory={{ wikijs_working_directory }}
+
+[Install]
+WantedBy=multi-user.target

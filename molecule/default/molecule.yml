@@ -1,0 +1,40 @@
+---
+dependency:
+  name: galaxy
+  options:
+    force: False
+driver:
+  name: docker
+lint: |
+  set -e
+  yamllint .
+  ansible-lint .
+  flake8
+platforms:
+  # # CentOS
+  # - name: molecule-wikijs-centos8
+  #   image: centos:8
+  #   privileged: True
+  #   volumes:
+  #     - "/sys/fs/cgroup:/sys/fs/cgroup:ro"
+  #   command: /usr/sbin/init
+  # Debian
+  - name: molecule-wikijs-debian10
+    image: jrei/systemd-debian:10
+    privileged: True
+    volumes:
+      - "/sys/fs/cgroup:/sys/fs/cgroup:ro"
+    command: /lib/systemd/systemd
+  # Ubuntu
+  - name: molecule-wikijs-ubuntu2004
+    image: jrei/systemd-ubuntu:20.04
+    privileged: True
+    volumes:
+      - "/sys/fs/cgroup:/sys/fs/cgroup:ro"
+    command: /lib/systemd/systemd
+provisioner:
+  name: ansible
+  log: true
+verifier:
+  name: testinfra
+  tb: short

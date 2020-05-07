@@ -1,0 +1,21 @@
+---
+galaxy_info:
+  author: "Wazo Developers"
+  description: "Setup [Wiki.js](https://wiki.js.org/)."
+  company: "Wazo https://wazo.io"
+  license: "MIT"
+  min_ansible_version: 1.8
+  platforms:
+    - name: Debian
+      versions:
+        - buster
+    - name: Ubuntu
+      versions:
+        - focal
+    # - name: EL
+    #   versions:
+    #     - 8
+  galaxy_tags:
+    - wiki
+    - node
+dependencies: []
